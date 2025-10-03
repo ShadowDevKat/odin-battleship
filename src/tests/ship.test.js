@@ -1,4 +1,4 @@
-import { Ship } from "../scripts/ship"
+import { Ship } from "../modules/ship"
 
 test("does ship get made with default length", () => {
     const ship = new Ship();
