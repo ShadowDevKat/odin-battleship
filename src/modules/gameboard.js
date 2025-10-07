@@ -80,17 +80,21 @@ export class GameBoard {
     receiveAttack(row, col) {
         const cell = this.board[row][col];
 
-        if ([CELL_STATE.MISS, CELL_STATE.HIT, CELL_STATE.SUNK].includes(cell.state)) {
-            return { result: ATTACK_RESULTS.ALREADY, coordinates: [row, col] };
-        }
+        switch (cell.state) {
+            case CELL_STATE.MISS:
+            case CELL_STATE.HIT:
+            case CELL_STATE.SUNK:
+                return { result: ATTACK_RESULTS.ALREADY, coordinates: [row, col] };
 
-        if (cell.state === CELL_STATE.EMPTY) {
-            cell.state = CELL_STATE.MISS;
-            return { result: ATTACK_RESULTS.MISS, coordinates: [row, col] };
-        }
+            case CELL_STATE.EMPTY:
+                cell.state = CELL_STATE.MISS;
+                return { result: ATTACK_RESULTS.MISS, coordinates: [row, col] };
 
-        if (cell.state === CELL_STATE.SHIP) {
-            return this.#handleHit(row, col, cell);
+            case CELL_STATE.SHIP:
+                return this.#handleHit(row, col, cell);
+
+            default:
+                throw new Error(`Unknown cell state: ${cell.state}`);
         }
     }
 
