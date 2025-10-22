@@ -8,6 +8,25 @@
 
   <body>
     <div id="content">
+      <div class="pop-up active initial">
+        <div class="pop-up-box">
+          <span class="pop-up-heading">Welcome to battleship Game!</span>
+          <fieldset>
+            <legend>Name</legend>
+            <input
+              type="text"
+              name="name"
+              id="pop-up-input"
+              placeholder="Enter Your Name (default: Commander Erwin)"
+              autocomplete="off"
+            />
+          </fieldset>
+          <div class="pop-up-btns">
+            <button type="button" class="confirm-name-btn btn">Confirm</button>
+            <button type="button" class="play-again-btn btn">Play Again</button>
+          </div>
+        </div>
+      </div>
       <div class="main-heading">Battleships</div>
       <div id="game-status">Current game state</div>
       <div class="boards-wrapper">

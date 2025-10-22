@@ -7,13 +7,16 @@
 :root {
   /* Core Palette */
   --color-surface: #2c2c2c;
-  --color-text: #f5f5f5;
+  --color-text: #ffffff;
   --color-text-muted: #b0b0b0;
   --color-primary: #3b82f6;
   --color-secondary: #3bf6d1;
   --color-tertiary: #f6b13b;
   --color-foreground: #1e1e1e;
   --color-foreground-light: #272727;
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #facc15;
   /* --color-primary-dark: #2563eb; */
   --box-size: min(2rem, 6vw);
 
@@ -79,11 +82,147 @@ body {
 }
 
 .board .box {
-  background-color: var(--color-foreground-light);
+  background-color: var(--color-primary);
   border: 2px solid var(--color-foreground);
   aspect-ratio: 1/1;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.board .box::before {
+  content: "";
+  opacity: 0;
+  width: 50%;
+  height: 50%;
+  aspect-ratio: 1/1;
+  background-color: var(--color-text);
+  border-radius: 50%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.computer-board .box {
+  transition: transform 0.1s ease-in-out;
+}
+
+.computer-board .box:hover {
+  transform: scale(1.1);
+}
+
+.computer-board .box:active {
+  background-color: var(--color-text-muted);
+  transform: scale(1);
+}
+
+/* Attack States */
+.board .box.attacked::before {
+  background-color: var(--color-text);
+}
+.board .box.hit::before,
+.board .box.sunk::before {
+  background-color: var(--color-error);
+  animation: 0.6s ease;
+  opacity: 1;
+}
+.board .box.miss::before {
+  background-color: #9ca3af; /* gray for miss */
+  opacity: 1;
+  animation: 0.4s ease;
+}
+
+/* Pop up styles */
+.pop-up {
+  position: fixed;
+  opacity: 0;
+  z-index: -100;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #0000009a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pop-up.active {
+  z-index: 10000;
+  opacity: 1;
+}
+.pop-up-box {
+  background: var(--color-foreground);
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  min-width: min(90vw, 500px);
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+.pop-up.initial .pop-up-box {
+  text-align: left;
+}
+.pop-up-box .pop-up-heading {
+  font-size: 1.6rem;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.pop-up-box fieldset {
+  display: none;
+  border-radius: 0.2rem;
+}
+.pop-up-box input {
+  font: inherit;
+  background: inherit;
+  font-size: 1rem;
+  color: inherit;
+  border: none;
+  padding: 0.5em;
+  outline: none;
+  width: 100%;
+}
+.pop-up-box input::placeholder {
+  color: var(--color-text-light);
+}
+.pop-up-btns {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.pop-up.initial .pop-up-btns {
+  justify-content: flex-end;
+}
+.confirm-name-btn {
+  display: none;
+}
+.pop-up.initial .pop-up-box fieldset,
+.pop-up.initial .confirm-name-btn {
+  display: initial;
+}
+
+.pop-up.initial .play-again-btn {
+  display: none;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.3em 0.7em;
+  border-radius: 0.3em;
+  font-weight: 500;
+  cursor: pointer;
+  border: 2px solid var(--color-text);
+  background: var(--color-text);
+  color: var(--color-background);
+  transition: all 0.3s ease-in-out;
+}
+.btn:hover {
+  background: var(--color-foreground);
+  color: var(--color-text);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
